@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="calculator-body">
+        <div class="calculator-result">
+            <div class="start-result">
+                Calculator
+            </div>
+            <div class="number-display">
+                123456
+            </div>
+        </div>
+
+        <div class="calculator-buttons">
+            <div class="button-row">
+                <div class="button">AC</div>
+                <div class="button">
+                    <img src="assets/delete.png" alt="delete" class="delete-button">
+                </div>
+                <div class="button">%</div>
+                <div id="operation-button">÷</div>
+            </div>
+            <div class="button-row">
+                <div class="button">7</div>
+                <div class="button">8</div>
+                <div class="button">9</div>
+                <div id="operation-button">×</div>
+            </div>
+            <div class="button-row">
+                <div class="button">4</div>
+                <div class="button">5</div>
+                <div class="button">6</div>
+                <div id="operation-button">−</div>
+            </div>
+            <div class="button-row">
+                <div class="button">1</div>
+                <div class="button">2</div>
+                <div class="button">3</div>
+                <div id="operation-button">+</div>
+            </div>
+            <div class="button-row">
+                <div class="button history-button">History</div>
+                <div class="button">0</div>
+                <div class="button">.</div>
+                <div id="operation-button" class="equal-button">=</div>
+            </div>
+        </div>
+
+        <div class="calculator-history"></div>
+    </div>
+</body>
+
+    <script src="script.js"></script>
+</html>

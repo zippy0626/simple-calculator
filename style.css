@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans",sans-serif;
+    color: #454445;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Body and Result */
+.calculator-body {
+    width: 450px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calculator-result {
+    width: 450px;
+    height: 25%;
+    padding: 15px;
+    font-size: 3rem;
+    display: flex;
+    background: #fefeff;
+    border: 1px #ebeaeb6b solid;
+    color: #222222;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.start-result {
+    height: max-content;
+    user-select: none;
+}
+
+.number-display {
+    height: max-content;
+    margin-left: auto; /* Remove this when the start-result is removed*/
+    align-self: flex-end;
+}
+
+/* BUTTONS STYLING */
+.calculator-buttons {
+    width: 450px;
+    height: 75%;
+    background: #fafbfb;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px #ebeaeb solid; */
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.delete-button {
+    width: 45px;
+}
+
+/* Rows */
+.button-row {
+    width: 450px;
+    height: 20%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.button {
+    width: 95px;
+    height: 93px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #454445;
+    font-size: 2rem;
+    user-select: none;
+}
+
+/* .button:hover {
+    transition: all 100ms;
+    background-color: #ebeaeb99;
+    border-radius: 50%;
+} */
+
+/* Operation Buttons */
+#operation-button {
+    width: 95px;
+    height: 93px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #3d3c3c;
+    font-size: 3rem;
+    user-select: none;
+    background: #eaebea;
+    border-radius: 50%;
+    scale: .8;
+}
+
+#operation-button.equal-button {
+    background-color: #c51542;
+    color: #282828;
+}
+
+/* History Button */
+.history-button {
+    font-size: 20px;
+}
+
+.calculator-history {
+    width: 450px;
+    height: 100vh;
+    display: none; /*Use JS to show this*/
+}
