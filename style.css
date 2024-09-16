@@ -5,7 +5,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: "Open Sans",sans-serif;
-    color: #454445;
 }
 
 body {
@@ -14,7 +13,7 @@ body {
     align-items: center;
 }
 
-/* Body and Result */
+/* BODY AND RESULT */
 .calculator-body {
     width: 450px;
     height: 100vh;
@@ -27,7 +26,6 @@ body {
     width: 450px;
     height: 25%;
     padding: 15px;
-    font-size: 3rem;
     display: flex;
     background: #fefeff;
     border: 1px #ebeaeb6b solid;
@@ -36,23 +34,32 @@ body {
     border-bottom-right-radius: 10px;
 }
 
-.start-result {
+.start {
     height: max-content;
     user-select: none;
+    font-size: 3rem;
+    display: flex;
 }
 
 .number-display {
+    display: flex;
     flex-direction: column;
     height: max-content;
     margin-left: auto; /* Remove this when the start-result is removed*/
-    align-self: flex-end;
+    margin-top: auto;
+}
+
+.numbers {
+    display: none;
+    font-size: 3rem;
 }
 
 .numbers-history {
     font-size: 1.5rem;
-    display: flex;
+    display: none;
     justify-content: end;
     align-items: center;
+    color: #222222a6;
 }
 
 /* BUTTONS STYLING */
@@ -65,6 +72,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #454445;
     /* border: 1px #ebeaeb solid; */
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
@@ -74,7 +82,7 @@ body {
     width: 45px;
 }
 
-/* Rows */
+/* ROWS */
 .button-row {
     width: 450px;
     height: 20%;
@@ -100,7 +108,7 @@ body {
     border-radius: 50%;
 } */
 
-/* Operation Buttons */
+/* OPERATION BUTTONS */
 #operation-button {
     width: 95px;
     height: 93px;
@@ -115,13 +123,13 @@ body {
     scale: .8;
 }
 
-#operation-button.equal-button {
+#operation-button.equal {
     background-color: #c51542;
     color: #282828;
 }
 
-/* History Button */
-.history-button {
+/* HISTORY BUTTON */
+.history {
     font-size: 20px;
 }
 
