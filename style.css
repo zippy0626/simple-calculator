@@ -80,6 +80,7 @@ body {
 
 .delete-button {
     width: 45px;
+    user-select: none;
 }
 
 /* ROWS */
