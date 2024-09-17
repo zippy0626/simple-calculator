@@ -32,6 +32,7 @@ body {
     color: #222222;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    overflow: hidden;
 }
 
 .start {
@@ -51,6 +52,7 @@ body {
 
 .numbers {
     display: none;
+    justify-content: flex-end;
     font-size: 3rem;
 }
 
@@ -110,7 +112,7 @@ body {
 } */
 
 /* OPERATION BUTTONS */
-#operation-button {
+.operation-button {
     width: 95px;
     height: 93px;
     display: flex;
@@ -124,7 +126,7 @@ body {
     scale: .8;
 }
 
-#operation-button.equal {
+.operation-button#equal {
     background-color: #c51542;
     color: #282828;
 }

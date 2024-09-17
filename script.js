@@ -1,127 +1,188 @@
 // MOUSE HOLD EFFECT
-let isMouseDown = false;
-let isMouseHovered = false;
+isMouseDown = false;
+isMouseHovered = false;
 function checkMouse() {
-    const buttons = document.querySelectorAll('.button');
-    buttons.forEach((button) => {
-        button.addEventListener('mouseover', () => {
-            isMouseHovered = true;
-        });
-        button.addEventListener('mousedown', () => {
-            isMouseDown = true;
-            if (isMouseDown && !isMouseHovered) {
-                return;
-            }
-            button.style.borderRadius = '50%'
-            button.style.backgroundColor = 'black'
-        });
-        button.addEventListener('mouseleave', () => {
-            isMouseHovered = false;
-            button.style.backgroundColor = ''
-        });
-        button.addEventListener('mouseup', () => {
-            isMouseDown = false;
-            button.style.backgroundColor = ''
-            return;
-        });
+  const buttons = document.querySelectorAll(".button");
+  buttons.forEach((button) => {
+    button.addEventListener("mouseover", () => {
+      isMouseHovered = true;
     });
+    button.addEventListener("mousedown", () => {
+      isMouseDown = true;
+      if (isMouseDown && !isMouseHovered) {
+        return;
+      }
+      button.style.borderRadius = "50%";
+      button.style.backgroundColor = "whitesmoke";
+    });
+    button.addEventListener("mouseleave", () => {
+      isMouseHovered = false;
+      button.style.backgroundColor = "";
+    });
+    button.addEventListener("mouseup", () => {
+      isMouseDown = false;
+      button.style.backgroundColor = "";
+      return;
+    });
+  });
 }
-checkMouse()
+checkMouse();
 
-// HIDE
-function hide(element) {
-    if (element === 'start') {
-        start.style.display = 'none'
-    }
-}
-function show(element) {
-    if (element === 'numbers') {
-        numbers.style.display = 'flex'
-    }
+function handleDelete() {
+  if (currentNum === 1 && firstNum != "") {
+    firstNum = firstNum.slice(0, -1);
+    numbers.textContent = firstNum;
+    return;
+  } else if (currentNum === 2 && secondNum != "") {
+    secondNum = secondNum.slice(0, -1);
+    numbers.textContent = numbers.textContent.slice(0, -1);
+    return;
+  }
 }
 
+function resetCalc() {
+  firstNum = "";
+  secondNum = "";
+  operator = "";
+  currentNum = 1;
+}
 
 // CALC
-let firstNum = "";
-let secondNum = "";
+firstNum = "";
+operator = "";
+secondNum = "";
 
-function updateAndConvert(whichNum, digit) {
-    if (whichNum === "first") {
-        firstNum += digit
-        return parseInt(firstNum)
-    } else if (whichNum === "second") {
-        secondNum += digit
-        return parseInt(secondNum)
-    } 
+currentNum = 1;
+
+const start = document.querySelector(".start");
+const numbers = document.querySelector(".numbers"); // DISPLAY NUMBERS
+const numbersHistory = document.querySelector(".numbers-history");
+
+// Handle Number Button Clicks
+const buttonSection = document.querySelector(".calculator-buttons");
+buttonSection.addEventListener("click", (e) => {
+  start.style.display = "none";
+  numbers.style.display = "flex";
+  numbersHistory.style.display = "none"; //reset history after button press
+
+  const buttonValue = e.target.innerText.trim();
+  const buttonClassList = e.target.classList;
+
+  if (
+    (!isNaN(buttonValue) && buttonValue != "") ||
+    buttonClassList.contains("percent")
+  ) {
+    // Number and not empty (delete)
+    if (currentNum === 1) {
+      firstNum += buttonValue;
+      numbers.textContent = firstNum;
+      return;
+    } else if (currentNum === 2) {
+      // Add and Show Second Number
+      secondNum += buttonValue;
+      numbers.textContent += buttonValue;
+    }
+  }
+
+  if (buttonValue === "AC") {
+    // All Clear
+    resetCalc();
+    numbers.textContent = "";
+    return;
+  }
+
+  if (buttonClassList.contains("delete-button")) {
+    // Delete
+    handleDelete();
+    return;
+  }
+
+  if (buttonClassList.contains("operation-button")) {
+    // Operation Buttons
+    if (buttonValue === "=") {
+      calculateResult();
+      return;
+    }
+
+    if (firstNum && currentNum === 1) {
+      // Only allow one operator at a time
+      operator = buttonValue;
+      currentNum = 2;
+      numbers.textContent = firstNum + operator;
+    }
+    return;
+  }
+});
+
+function handlePercentage(numberStr) {
+  if (numberStr.length === 1 && numberStr.includes("%")) {
+    return 0.01;
+  }
+
+  let countPercentSigns = numberStr.match(/%/g).length;
+
+  let num = parseFloat(numberStr);
+  for (let i = 0; i < countPercentSigns; i++) {
+    num /= 100;
+  }
+
+  return Math.round(num * 10000000) / 10000000; // round at 6 digits
 }
 
+console.log(handlePercentage("%"));
 
-const start = document.querySelector('.start');
-const numbers = document.querySelector('.numbers');
-const numbersHistory = document.querySelector('.numbers-history');
+let result = 0;
+function calculateResult() {
+  //calculate result based on firstNum operator and secNum
+  // Use these variable instead
+  let num1 = 0;
+  let num2 = 0;
 
-function startCalculator() {
-    const numberButtons = document.querySelectorAll('.button');
-    numberButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-            if (button.classList.contains("n-0")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 0)
-                show('numbers')
+  if (!firstNum && !secondNum && !operator) {
+    return;
+  }
 
-            } else if (button.classList.contains("n-1")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 1)
-                show('numbers')
+  if (firstNum && secondNum && operator) {
+    if (firstNum.includes("%") || secondNum.includes("%")) {
+      num1 = handlePercentage(firstNum);
+      num2 = handlePercentage(secondNum);
+    } else {
+      num1 = parseFloat(firstNum);
+      num2 = parseFloat(secondNum);
+    }
 
-            } else if (button.classList.contains("n-2")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 2)
-                show('numbers')
+    switch (operator) {
+      case "÷":
+        if (num2 === 0) {
+          numbers.textContent = "Cannot Divide By Zero";
+          return;
+        }
+        result = num1 / num2;
+        break;
+      case "×":
+        result = num1 * num2;
+        break;
+      case "−":
+        result = num1 - num2;
+        break;
+      case "+":
+        result = num1 + num2;
+        break;
+    }
+  } else if (firstNum && !secondNum && !operator) {
+    //only firstNum
+    if (firstNum.includes("%")) {
+      num1 = handlePercentage(firstNum);
+      result = num1;
+    } else {
+      num1 = parseFloat(firstNum);
+      result = num1;
+    }
+  }
+  numbersHistory.textContent = numbers.textContent;
+  numbersHistory.style.display = "flex";
 
-            } else if (button.classList.contains("n-3")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 3)
-                show('numbers')
-
-            } else if (button.classList.contains("n-4")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 4)
-                show('numbers')
-
-            } else if (button.classList.contains("n-5")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 5)
-                show('numbers')
-
-            } else if (button.classList.contains("n-6")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 6)
-                show('numbers')
-
-            } else if (button.classList.contains("n-7")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 7)
-                show('numbers')
-
-            } else if (button.classList.contains("n-8")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 8)
-                show('numbers')
-
-            } else if (button.classList.contains("n-9")) {
-                hide("start")
-                numbers.textContent = updateAndConvert('first', 9)
-                show('numbers')
-
-            } else if (button.classList.contains("all-clear")) {
-                hide("start")
-                firstNum = ''
-                secondNum = ''
-                numbers.textContent = ""
-                show('numbers')
-            } 
-        });
-    });
+  numbers.textContent = result;
+  resetCalc();
+  firstNum = result.toString();
 }
-startCalculator()
