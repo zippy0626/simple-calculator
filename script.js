@@ -76,18 +76,34 @@ buttonSection.addEventListener("click", (e) => {
     if (currentNum === 1) {
       firstNum += buttonValue;
       numbers.textContent = firstNum;
-      return;
     } else if (currentNum === 2) {
       // Add and Show Second Number
       secondNum += buttonValue;
       numbers.textContent += buttonValue;
     }
+    return;
   }
 
   if (buttonValue === "AC") {
     // All Clear
     resetCalc();
     numbers.textContent = "";
+    return;
+  }
+
+  if (buttonValue === '.') {
+    if (currentNum === 1) {
+        if (!firstNum.includes('.')) {
+            firstNum += buttonValue;
+            numbers.textContent = firstNum;
+        }
+        } else if (currentNum === 2) {
+        // Add and Show Second Number
+        if (!secondNum.includes('.')) {
+            secondNum += buttonValue;
+            numbers.textContent += buttonValue;
+        }
+        }
     return;
   }
 
@@ -129,7 +145,7 @@ function handlePercentage(numberStr) {
   return Math.round(num * 10000000) / 10000000; // round at 6 digits
 }
 
-console.log(handlePercentage("%"));
+
 
 let result = 0;
 function calculateResult() {
@@ -170,7 +186,7 @@ function calculateResult() {
         break;
     }
   } else if (firstNum && !secondNum && !operator) {
-    //only firstNum
+    //only one number
     if (firstNum.includes("%")) {
       num1 = handlePercentage(firstNum);
       result = num1;
@@ -179,10 +195,12 @@ function calculateResult() {
       result = num1;
     }
   }
+  // Show History before showing result
   numbersHistory.textContent = numbers.textContent;
   numbersHistory.style.display = "flex";
 
   numbers.textContent = result;
   resetCalc();
+  // Store Result to firstNum
   firstNum = result.toString();
 }
