@@ -28,6 +28,8 @@ function checkMouse() {
 }
 checkMouse();
 
+
+
 function handleDelete() {
   if (currentNum === 1 && firstNum != "") {
     firstNum = firstNum.slice(0, -1);
@@ -40,12 +42,16 @@ function handleDelete() {
   }
 }
 
+
+
 function resetCalc() {
   firstNum = "";
   secondNum = "";
   operator = "";
   currentNum = 1;
 }
+
+
 
 // CALC
 firstNum = "";
@@ -91,19 +97,19 @@ buttonSection.addEventListener("click", (e) => {
     return;
   }
 
-  if (buttonValue === '.') {
+  if (buttonValue === ".") {
     if (currentNum === 1) {
-        if (!firstNum.includes('.')) {
-            firstNum += buttonValue;
-            numbers.textContent = firstNum;
-        }
-        } else if (currentNum === 2) {
-        // Add and Show Second Number
-        if (!secondNum.includes('.')) {
-            secondNum += buttonValue;
-            numbers.textContent += buttonValue;
-        }
-        }
+      if (!firstNum.includes(".")) {
+        firstNum += buttonValue;
+        numbers.textContent = firstNum;
+      }
+    } else if (currentNum === 2) {
+      // Add and Show Second Number
+      if (!secondNum.includes(".")) {
+        secondNum += buttonValue;
+        numbers.textContent += buttonValue;
+      }
+    }
     return;
   }
 
@@ -129,6 +135,8 @@ buttonSection.addEventListener("click", (e) => {
     return;
   }
 });
+
+
 
 function handlePercentage(numberStr) {
   if (numberStr.length === 1 && numberStr.includes("%")) {
@@ -169,6 +177,7 @@ function calculateResult() {
 
     switch (operator) {
       case "÷":
+      case "/":
         if (num2 === 0) {
           numbers.textContent = "Cannot Divide By Zero";
           return;
@@ -176,6 +185,7 @@ function calculateResult() {
         result = num1 / num2;
         break;
       case "×":
+      case "*":
         result = num1 * num2;
         break;
       case "−":
@@ -204,3 +214,98 @@ function calculateResult() {
   // Store Result to firstNum
   firstNum = result.toString();
 }
+
+
+
+// Handle Numpad
+const body = document.querySelector("body");
+body.addEventListener("keydown", (e) => {
+  const key = e.key;
+  let acceptableKeys = [
+    ".",
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "/",
+    "*",
+    "-",
+    "+",
+    "Enter",
+    "c",
+    "Backspace",
+    "%",
+  ];
+
+  if (!acceptableKeys.includes(key)) {
+    return;
+  }
+
+  start.style.display = "none";
+  numbers.style.display = "flex";
+  numbersHistory.style.display = "none"; //reset history after button press
+
+  if (!isNaN(key) || key === '%') {
+    if (currentNum === 1) {
+      firstNum += key;
+      numbers.textContent = firstNum;
+    } else if (currentNum === 2) {
+      // Add and Show Second Number
+      secondNum += key;
+      numbers.textContent += key;
+    }
+    return;
+  }
+
+  if (key === "c") {
+    resetCalc();
+    numbers.textContent = "";
+    return;
+  }
+
+  if (key === ".") {
+    if (currentNum === 1) {
+      if (!firstNum.includes(".")) {
+        firstNum += key;
+        numbers.textContent = firstNum;
+      }
+    } else if (currentNum === 2) {
+      // Add and Show Second Number
+      if (!secondNum.includes(".")) {
+        secondNum += key;
+        numbers.textContent += key;
+      }
+    }
+    return;
+  }
+
+  if (key === 'Backspace') {
+    handleDelete();
+    return;
+  }
+
+  if (acceptableKeys.slice(11, 16).includes(key)) {
+    if (key === "Enter") {
+      calculateResult();
+      return;
+    }
+
+    if (firstNum && currentNum === 1) {
+      // Only allow one operator at a time
+      if (key === '/') {
+        operator = "÷";
+      } else if (key === "*") {
+        operator = "×"
+      } 
+      currentNum = 2;
+      numbers.textContent = firstNum + operator;
+    }
+    return;
+  }
+});
