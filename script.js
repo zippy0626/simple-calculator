@@ -302,7 +302,9 @@ body.addEventListener("keydown", (e) => {
         operator = "÷";
       } else if (key === "*") {
         operator = "×"
-      } 
+      } else {
+        operator = key
+      };
       currentNum = 2;
       numbers.textContent = firstNum + operator;
     }
